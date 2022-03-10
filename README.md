@@ -2,6 +2,11 @@
 
 这个程序展示了三次贝塞尔曲线的分割算法。
 
+使用了以下第三方库：
+* GLFW & Glad （用于适配 OpenGL）
+* glm （数学库）
+* ImGui （界面库）
+
 ![](images/screenshot.png)
 
 ## 使用说明
