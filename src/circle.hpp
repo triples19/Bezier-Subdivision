@@ -7,6 +7,7 @@
 #include <cmath>
 #include "common.hpp"
 
+// 渲染一个圆（来当做一个点来显示）
 void renderCircle(glm::vec2 center, float radius, uint32_t vertCount, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f)) {
     shader.color = color;
     shader.use();

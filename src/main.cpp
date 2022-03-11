@@ -31,13 +31,14 @@ GLFWwindow* mainWindow;
 void initGLFW();
 void initGLAD();
 void initImGui();
-void initShader();
+void initShader();  // 用默认的 shader 来初始化 (shaders/vert.glsl & shaders/frag.glsl)
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 std::array<glm::vec2, 4> points;  // 4个控制点
 float t0 = 0.5f;                  // t0
 bool showSpilt = true;            // 是否显示分割出的控制点
 
+// 初始化四个默认的控制点
 void init() {
     points = {
         glm::vec2(-3.0f, 0.0f),
@@ -47,11 +48,14 @@ void init() {
 }
 
 void renderUpdate() {
+    // 设置投影矩阵来适应窗口大小
     shader.projection = glm::ortho(
         -X_MAX / SCR_WIDTH * curScrWidth,
         X_MAX / SCR_WIDTH * curScrWidth,
         -Y_MAX / SCR_HEIGHT * curScrHeight,
         Y_MAX / SCR_HEIGHT * curScrHeight, 0.1f, 100.0f);
+
+    // 画 Bezier 曲线
     drawSplitBezier(points, t0, showSpilt);
 }
 
@@ -60,22 +64,31 @@ glm::vec2* draggingPoint = nullptr;  // 正在拖动的控制点
 // 处理鼠标点击和拖动
 void processInput() {
     int lmb = glfwGetMouseButton(mainWindow, GLFW_MOUSE_BUTTON_LEFT);
+
+    // 获取鼠标坐标并手动转换到世界坐标系
+    // 注：未考虑缩放等变换
     double posX, posY;
     glfwGetCursorPos(mainWindow, &posX, &posY);
     posX = (posX / curScrWidth - 0.5) * 2 * X_MAX * curScrWidth / SCR_WIDTH;
     posY = -(posY / curScrHeight - 0.5) * 2 * Y_MAX * curScrHeight / SCR_HEIGHT;
     glm::vec2 pos(posX, posY);
+
     if (lmb == GLFW_PRESS) {
+        // 按下&按着鼠标左键时
         if (draggingPoint) {
+            // 正在拖动，则改变控制点的坐标到鼠标
             draggingPoint->x = posX;
             draggingPoint->y = posY;
         } else {
+            // 未在拖动，检查鼠标是否在某个控制点附近
             auto p = std::find_if(points.begin(), points.end(), [&](const glm::vec2 p) {
                 return glm::distance(p, pos) <= pointRadius * 1.5;
             });
+            // 如果在某个控制点附近点下，则开始拖动
             if (p != points.end()) draggingPoint = p;
         }
     } else if (lmb == GLFW_RELEASE) {
+        // 松开鼠标左键时
         if (draggingPoint) draggingPoint = nullptr;
     }
 }
@@ -86,6 +99,7 @@ void renderImGui() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    // 设置窗口
     {
         ImGui::Begin("Setting");
         ImGui::Text("Control points");
@@ -104,6 +118,7 @@ void renderImGui() {
         ImGui::End();
     }
 
+    // 输出窗口
     {
         ImGui::Begin("Subdivision Outputs");
 
@@ -130,11 +145,12 @@ int main() {
     initGLAD();
     initImGui();
     initShader();
-
-    glEnable(GL_DEPTH_TEST);
-
     init();
 
+    // 开启深度测试
+    glEnable(GL_DEPTH_TEST);
+
+    // 主循环
     while (!glfwWindowShouldClose(mainWindow)) {
         glfwPollEvents();
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -143,6 +159,7 @@ int main() {
         renderImGui();
         renderUpdate();
         processInput();
+
         glfwSwapBuffers(mainWindow);
     }
 
@@ -181,7 +198,6 @@ void initImGui() {
     ImGui::CreateContext();
 
     auto io = ImGui::GetIO();
-    // io.Fonts->AddFontFromFileTTF("JetBrainsMono-ExtraLight.ttf", 24.0f, nullptr, nullptr);
     ImGui::StyleColorsLight();
 
     ImGui_ImplGlfw_InitForOpenGL(mainWindow, true);
