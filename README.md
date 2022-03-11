@@ -56,9 +56,9 @@ glm::vec2 calculateBezier(
     float t
 )
 ```
-`calculateBezier` 函数计算由4个控制点 `points` 控制的3次贝塞尔曲线在 `t` 处的坐标，公式如下
+`calculateBezier` 函数计算由4个控制点 `points` 控制的3次贝塞尔曲线在 `t` 处的坐标。
 
-<!-- $\displaystyle\mathbf{B}(t) = \mathbf{P}_0(1-t)^3+3\mathbf{P}_1 t(1-t)^2+3\mathbf{P}_2 t^2(1-t)+\mathbf{P}_3 t^3, t\in[0,1]$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle%5Cmathbf%7BB%7D(t)%20%3D%20%5Cmathbf%7BP%7D_0(1-t)%5E3%2B3%5Cmathbf%7BP%7D_1%20t(1-t)%5E2%2B3%5Cmathbf%7BP%7D_2%20t%5E2(1-t)%2B%5Cmathbf%7BP%7D_3%20t%5E3%2C%20t%5Cin%5B0%2C1%5D">
+<!-- $\displaystyle\mathbf{B}(t) = \mathbf{P}_0(1-t)^3+3\mathbf{P}_1 t(1-t)^2+3\mathbf{P}_2 t^2(1-t)+\mathbf{P}_3 t^3, t\in[0,1]$ -->
 
 ---
 
@@ -131,7 +131,10 @@ void renderCircle(
 ```
 
 原理是，先把一个单位圆按角度分成 `vertCount` 块，每一块角度 `angle = 360.0f / vertCount`，这样就可以算出单位圆上这个点的坐标，再根据半径和圆心来作相应的变换。
+```cpp
+vertices[i] = center + radius * glm::vec2(std::cos(angle * PI / 180.0f), std::sin(angle * PI / 180.0f));
+```
 
-<!-- $\displaystyle\mathbf{p}_i=\mathbf{center}+\text{radius}\times(\cos(\text{angle}_i\times\frac{\pi}{180}),\ \sin(\text{angle}_i\times\frac{\pi}{180}))$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle%5Cmathbf%7Bp%7D_i%3D%5Cmathbf%7Bcenter%7D%2B%5Ctext%7Bradius%7D%5Ctimes(%5Ccos(%5Ctext%7Bangle%7D_i%5Ctimes%5Cfrac%7B%5Cpi%7D%7B180%7D)%2C%5C%20%5Csin(%5Ctext%7Bangle%7D_i%5Ctimes%5Cfrac%7B%5Cpi%7D%7B180%7D))">
+<!-- $\displaystyle\mathbf{p}_i=\mathbf{center}+\text{radius}\times(\cos(\text{angle}_i\times\frac{\pi}{180}),\ \sin(\text{angle}_i\times\frac{\pi}{180}))$ -->
 
 算出 `vertCount` 个顶点，将它们连在一起就形成了一个类似圆的多边形。
