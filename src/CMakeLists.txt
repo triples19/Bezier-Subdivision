@@ -3,8 +3,6 @@ file(GLOB SRC *.hpp *.h *.cpp *.c)
 add_executable(Bezier-Subdivition ${SRC})
 target_include_directories(thirdparty PUBLIC ../thirdparty)
 
-message(("${CMAKE_CXX_COMPILER_ID}"))
-
 if (WIN32)
 target_link_libraries(Bezier-Subdivition thirdparty ${PROJECT_SOURCE_DIR}/thirdparty/libglfw3.a -static-libgcc -static-libstdc++)
 elseif (APPLE)
