@@ -38,7 +38,7 @@ struct Shader {
 // 共用的 Shader
 static Shader shader;
 
-constexpr double pi() { return std::acos(-1); }
+constexpr double PI = 3.14159265358979323846;
 
 // 插值
 glm::vec2 lerp(const glm::vec2 &a, const glm::vec2 &b, float t) {

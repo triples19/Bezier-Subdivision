@@ -15,8 +15,8 @@ void renderCircle(glm::vec2 center, float radius, uint32_t vertCount, glm::vec3 
     float step = 360.0f / vertCount;
     for (uint32_t i = 0; i < vertCount; i++) {
         float angle = i * step;
-        vertices[i] = glm::vec2(std::cos(angle * pi() / 180.0f),
-                                std::sin(angle * pi() / 180.0f));
+        vertices[i] = glm::vec2(std::cos(angle * PI / 180.0f),
+                                std::sin(angle * PI / 180.0f));
         vertices[i] *= radius;
         vertices[i] += center;
     }
