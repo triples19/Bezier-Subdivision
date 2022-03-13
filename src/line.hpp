@@ -7,7 +7,8 @@
 #include "common.hpp"
 
 // 渲染一组折线
-void renderLine(const std::vector<glm::vec2>& points, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f)) {
+void renderLine(const std::vector<glm::vec2>& points, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f), float width = lineWidth) {
+    glLineWidth(width);
     shader.color = color;
     shader.use();
     std::vector<uint32_t> indecies;

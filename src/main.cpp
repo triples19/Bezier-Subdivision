@@ -115,6 +115,10 @@ void renderImGui() {
         ImGui::Checkbox("Show", &showSpilt);
         ImGui::SliderFloat("t0", &t0, 0.0f, 1.0f);
 
+        ImGui::Text("View");
+        ImGui::SliderFloat("Curve width", &curveWidth, 0.0f, 5.0f);
+        ImGui::SliderFloat("Line width", &lineWidth, 0.0f, 5.0f);
+
         ImGui::End();
     }
 

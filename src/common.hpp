@@ -16,6 +16,9 @@ const glm::vec3 t0Color(1.0f, 1.0f, 1.0f);
 const float pointRadius = 0.06f;
 const int pointVertCount = 10;
 
+float curveWidth = 3.0f;
+float lineWidth = 2.0f;
+
 // Shader 结构体
 struct Shader {
     uint32_t ID;

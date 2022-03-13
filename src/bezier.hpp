@@ -34,7 +34,7 @@ void drawBezier(const std::array<glm::vec2, 4>& points) {
     }
 
     // 渲染折线
-    renderLine(linePoints, curveColor);
+    renderLine(linePoints, curveColor, curveWidth);
 }
 
 static std::array<glm::vec2, 4> c1, c2;  // 分裂出的两组控制点
